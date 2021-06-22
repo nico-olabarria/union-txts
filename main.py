@@ -1,5 +1,6 @@
 # Importación de librerías
 import pandas as pd
+import numpy as np
 
 # Lectura de las rutas de los archivos de texto
 with open("Rutas.txt","r") as route_file:
@@ -28,8 +29,9 @@ for i in range(1, len(rutas)):
 
 # Pasar a CSV
 
-csv_route = input("Introduzca el nombre del archivo al que quiere exportar el .csv")
+csv_route = input("Introduzca el nombre del archivo al que quiere exportar el .csv: ")
+title = csv_route + ".txt"
 
-df_rows.to_csv(csv_route + ".csv", sep = ',')
+np.savetxt(title,df_rows.values, delimiter = ',', fmt = '%s')
 
 print(df_rows)
