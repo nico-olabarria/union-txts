@@ -13,6 +13,23 @@ for ruta in rutas:
 # Lectura de los archivos de texto
 
 df_titles = pd.read_csv(rutas[0],sep = ';', skiprows = 29, nrows = 0, usecols = range(1, 14))
-df_rows = pd.read_csv(rutas[0],names = df_titles.columns,sep = ';', skiprows = 31, nrows = 140, usecols = range(1, 14))
-print(df_titles)
+
+df_rows = pd.read_csv(rutas[0], sep=';', skiprows = 31, nrows = 139, usecols = range(1, 14), names = df_titles.columns)
+dict_dtypes ={}
+for i in range(0, len(df_rows.columns)):
+    dict_dtypes[df_rows.columns[i]] = df_rows.iloc[:,i].dtype
+
+for i in range(1, len(rutas)):
+    with open(rutas[1],'r') as file:
+        num = len(file.readlines())
+    df_rows = df_rows.append(pd.read_csv(rutas[1], sep=';', skiprows = 31, nrows = num -32, usecols = range(1, 14),
+                                         names = df_titles.columns, dtype = dict_dtypes),
+                             ignore_index = True)
+
+# Pasar a CSV
+
+csv_route = input("Introduzca el nombre del archivo al que quiere exportar el .csv")
+
+df_rows.to_csv(csv_route + ".csv", sep = ',')
+
 print(df_rows)
