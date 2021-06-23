@@ -32,6 +32,9 @@ for i in range(1, len(rutas)):
 csv_route = input("Introduzca el nombre del archivo al que quiere exportar el .csv: ")
 title = csv_route + ".txt"
 
-np.savetxt(title,df_rows.values, delimiter = ',', fmt = '%s')
+with open(title, 'w+') as file:
+    for i in range(0, len(df_rows.columns)):
+        file.write(str(df_rows.columns[i])+',')
 
-print(df_rows)
+with open(title, 'a+') as file:
+    np.savetxt(title,df_rows.values, delimiter = ',', fmt = '%s')
