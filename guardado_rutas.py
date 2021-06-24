@@ -2,7 +2,55 @@
 
 import os
 
+def ordenado_ficheros():
+
+    import os
+
+    option = input("¿Quiere ordenar los archivos en carpetas?[y/n]: ")
+
+    while option.upper() != 'Y' and option.upper() != 'N':
+        print("Opción no válida inténtelo de nuevo.")
+        option = input("¿Quiere ordenar los archivos en carpetas?[y/n]: ")
+
+    if option.upper() == 'Y':
+        ruta = input("Introduzca la ruta de los archivos a ordenar: ")
+
+        # Chequeo de que la ruta exista
+
+        while os.path.exists(ruta) == False:
+            print("Ruta no válida, inténtalo de nuevo.")
+            ruta = input("Introduzca la ruta de los archivos a ordenar: ")
+
+        # Listado de los archivos en el directorio
+
+        file_list = os.listdir(ruta)
+        print("Los archivos en el directorio son: \n %s" % file_list)
+
+        # Copiado de archivos
+
+        nombre_archivo = input("Introduzca el nombre del producto que quiere copiar al directorio: ")
+
+        for archivo in file_list:
+            index = archivo.find(nombre_archivo)
+            print(nombre_archivo, " encontrado en el índice ", index)
+
+        # Creacion del directorio donde guardar los archivos
+
+        try:
+            directorio = input("Introduzca donde quiere guardar los archivos: ")
+            os.mkdir(directorio)
+        except OSError:
+            print("No se pudo crear el directorio")
+        else:
+            print("Creado correctamente en: ", directorio)
+
 def guardado_rutas():
+    """
+    Esta función coge los archivos de un directorio y los lista en un archivo de texto. Además, devuelve una lista con
+    los títulos de los archivos que ha listado.
+    :return:
+        route_list : lista con los nombres de los archivos del directorio.
+    """
 
     i = 0 
 
@@ -17,7 +65,7 @@ def guardado_rutas():
 
         # Definición del título del archivo de rutas
 
-        if i = 0:
+        if i == 0:
             title = "Rutas.txt"
         else:
             title = "Rutas" + str(i) + ".txt"

@@ -1,6 +1,10 @@
 # Importación de librerías
+
 import pandas as pd
 import numpy as np
+import guardado_rutas as gr
+
+route_list = gr.guardado_rutas()
 
 # Lectura de las rutas de los archivos de texto
 with open("Rutas.txt","r") as route_file:
