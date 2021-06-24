@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import guardado_rutas as gr
 
+gr.ordenado_ficheros()
+
 route_list = gr.guardado_rutas()
 
 # Lectura de las rutas de los archivos de texto

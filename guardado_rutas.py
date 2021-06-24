@@ -2,13 +2,14 @@
 
 import os
 import shutil
-
+import pandas as pd
 
 def ordenado_ficheros():
-
-    import os
-    import shutil
-    import pandas as pd
+    """
+    Esta función crea un directorio donde copia todos los archivos de un mismo producto
+    :return:
+        No devuelve nada
+    """
 
     option = input("¿Quiere ordenar los archivos en carpetas?[y/n]: ")
 
