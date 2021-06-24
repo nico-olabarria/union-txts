@@ -93,13 +93,16 @@ def guardado_rutas():
                 file.writelines(ruta + '\\' + os.listdir(ruta)[i] + '\n')
 
         option = input("¿Quiere seguir introduciendo ficheros?[y/n]: ")
-        while option.upper != 'Y' and option.upper != 'N':
+        while option.upper() != 'Y' and option.upper() != 'N':
             print("Opción no válida inténtelo de nuevo.")
             option = input("¿Quiere seguir introduciendo ficheros?[y/n]: ")
-        
-        if option.upper == 'N':
-            break
-        
-        i += 1
 
-    return route_list   
+        if option.upper() == 'N':
+            break
+        elif option.upper() == 'Y':
+            ruta = input("Introduce la ruta donde estén los archivos que quieres listar: ")
+            i += 1
+        
+
+
+    return route_list

@@ -4,15 +4,15 @@ import pandas as pd
 import numpy as np
 import guardado_rutas as gr
 
-gr.ordenado_ficheros()
-
 route_list = gr.guardado_rutas()
 
 # Lectura de las rutas de los archivos de texto
+
 with open("Rutas.txt","r") as route_file:
     rutas = route_file.readlines()
 
 i = 0
+
 for ruta in rutas:
     rutas[i] = ruta.replace("\n", "")
     i += 1
