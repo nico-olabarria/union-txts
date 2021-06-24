@@ -1,10 +1,14 @@
 # Importación librerías
 
 import os
+import shutil
+
 
 def ordenado_ficheros():
 
     import os
+    import shutil
+    import pandas as pd
 
     option = input("¿Quiere ordenar los archivos en carpetas?[y/n]: ")
 
@@ -23,26 +27,37 @@ def ordenado_ficheros():
 
         # Listado de los archivos en el directorio
 
-        file_list = os.listdir(ruta)
+        file_list = pd.Series(os.listdir(ruta))
         print("Los archivos en el directorio son: \n %s" % file_list)
 
         # Copiado de archivos
 
         nombre_archivo = input("Introduzca el nombre del producto que quiere copiar al directorio: ")
 
-        for archivo in file_list:
-            index = archivo.find(nombre_archivo)
-            print(nombre_archivo, " encontrado en el índice ", index)
+        i = 0
 
+        archivos_a_copiar = []
+
+        for archivo in file_list:
+            result = file_list.str.contains(nombre_archivo)
+            if result[i] == True:
+                print(nombre_archivo, " encontrado en el archivo ", archivo)
+                archivos_a_copiar.append(archivo)
+            i += 1
         # Creacion del directorio donde guardar los archivos
 
         try:
-            directorio = input("Introduzca donde quiere guardar los archivos: ")
+            directorio = input("Introduzca la carpeta donde quiere crear el directorio: ")
+            directorio = directorio + '\\' + nombre_archivo
             os.mkdir(directorio)
         except OSError:
             print("No se pudo crear el directorio")
         else:
             print("Creado correctamente en: ", directorio)
+
+        for archivo in archivos_a_copiar:
+            archivo = ruta + "\\" + archivo
+            shutil.copy(archivo,directorio)
 
 def guardado_rutas():
     """
