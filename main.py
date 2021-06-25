@@ -3,44 +3,15 @@
 import pandas as pd
 import numpy as np
 import guardado_rutas as gr
+import union_txt as ut
 
-route_list = gr.guardado_rutas()
+# Listado de las rutas en cada directorio
 
-# Lectura de las rutas de los archivos de texto
+#route_list = gr.guardado_rutas()
 
-with open("Rutas.txt","r") as route_file:
-    rutas = route_file.readlines()
+# Unión de todos los archivos en cada directorio
 
-i = 0
+route_list = ["Rutas.txt", "Rutas7.txt", "Rutas11.txt", "Rutas24.txt"]
 
-for ruta in rutas:
-    rutas[i] = ruta.replace("\n", "")
-    i += 1
-
-# Lectura de los archivos de texto
-
-df_titles = pd.read_csv(rutas[0],sep = ';', skiprows = 29, nrows = 0, usecols = range(1, 14))
-
-df_rows = pd.read_csv(rutas[0], sep=';', skiprows = 31, nrows = 139, usecols = range(1, 14), names = df_titles.columns)
-dict_dtypes ={}
-for i in range(0, len(df_rows.columns)):
-    dict_dtypes[df_rows.columns[i]] = df_rows.iloc[:,i].dtype
-
-for i in range(1, len(rutas)):
-    with open(rutas[1],'r') as file:
-        num = len(file.readlines())
-    df_rows = df_rows.append(pd.read_csv(rutas[1], sep=';', skiprows = 31, nrows = num -32, usecols = range(1, 14),
-                                         names = df_titles.columns, dtype = dict_dtypes),
-                             ignore_index = True)
-
-# Pasar a CSV
-
-csv_route = input("Introduzca el nombre del archivo al que quiere exportar el .csv: ")
-title = csv_route + ".txt"
-
-with open(title, 'w+') as file:
-    for i in range(0, len(df_rows.columns)):
-        file.write(str(df_rows.columns[i])+',')
-
-with open(title, 'a+') as file:
-    np.savetxt(title,df_rows.values, delimiter = ',', fmt = '%s')
+for archivo in route_list:
+    ut.union_txt(archivo)

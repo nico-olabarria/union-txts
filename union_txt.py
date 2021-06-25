@@ -1,8 +1,13 @@
 import os
 import pandas as pd
+import pandas.errors
+
 
 def union_txt(title):
     # Lectura de las rutas de los archivos de texto
+
+    import pandas as pd
+    title = "Rutas24.txt"
 
     with open(title, "r") as route_file:
         rutas = route_file.readlines()
@@ -15,7 +20,7 @@ def union_txt(title):
 
     # Lectura de los valores de los archivos
 
-    df_rows = pd.read_csv(rutas[0], sep=';', skiprows=31)
+    df_rows = pd.read_csv(rutas[0], sep=';', skiprows=29, low_memory = False)
 
     df_rows = df_rows.drop(columns=df_rows.columns[0])
     df_rows = df_rows.drop([0])
@@ -30,13 +35,14 @@ def union_txt(title):
     # Creación de un dataFrame auxiliar
 
     for i in range(1, len(rutas)):
-        with open(rutas[i], 'r') as file:
-            num = len(file.readlines())
-        aux_df = pd.read_csv(rutas[i], sep=';', skiprows=31, nrows=num - 32, dtype=dict_dtypes)
-        aux_df = aux_df.drop(columns=aux_df.columns[0])
-        aux_df = aux_df.drop([0])
-        aux_df = aux_df.drop(aux_df.tail(1).index)
-        df_rows = df_rows.append(aux_df, ignore_index=True)
+        try:
+            aux_df = pd.read_csv(rutas[i], sep=';', skiprows=29, dtype=dict_dtypes, engine = 'python')
+            aux_df = aux_df.drop(columns=aux_df.columns[0])
+            aux_df = aux_df.drop([0])
+            aux_df = aux_df.drop(aux_df.tail(1).index)
+            df_rows = df_rows.append(aux_df, ignore_index=True)
+        except pd.errors.EmptyDataError:
+            print("Archivo ", rutas[i])
 
     # Pasar a .csv
 
